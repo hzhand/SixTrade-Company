@@ -1,0 +1,84 @@
+_schema-version: "3.2"
+ID: CustomsSubmission
+version: 0.0.1
+modules:
+- name: CustomsSubmission-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: CustomsSubmission-destination-service
+    parameters:
+      content-target: true
+  - name: CustomsSubmission_html_repo_host
+    parameters:
+      service-key:
+        name: CustomsSubmission_html_repo_host-key
+  - name: uaa_CustomsSubmission
+    parameters:
+      service-key:
+        name: uaa_CustomsSubmission-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: CustomsSubmission_CustomsSubmission_html_repo_host
+          ServiceInstanceName: CustomsSubmission-html5-app-host-service
+          ServiceKeyName: CustomsSubmission_html_repo_host-key
+          sap.cloud.service: CustomsSubmission
+        - Authentication: OAuth2UserTokenExchange
+          Name: CustomsSubmission_uaa_CustomsSubmission
+          ServiceInstanceName: CustomsSubmission-xsuaa-service
+          ServiceKeyName: uaa_CustomsSubmission-key
+          sap.cloud.service: CustomsSubmission
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: CustomsSubmission_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: CustomsSubmission_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - customssubmission-content.zip
+      name: customssubmission
+      target-path: resources/
+- name: customssubmission
+  type: html5
+  path: customssubmission
+  build-parameters:
+    builder: custom
+    commands:
+    - npm run build
+    supported-platforms: []
+resources:
+- name: CustomsSubmission-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      version: 1.0.0
+    service: destination
+    service-name: CustomsSubmission-destination-service
+    service-plan: lite
+- name: CustomsSubmission_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: CustomsSubmission-html5-app-host-service
+    service-plan: app-host
+- name: uaa_CustomsSubmission
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: CustomsSubmission-xsuaa-service
+    service-plan: application
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install

@@ -1,0 +1,96 @@
+<mvc:View controllerName="com.sap.poc.customssubmission.controller.ResponseHistory"
+    class="sapUiSizeCompact"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:uxap="sap.uxap"
+    xmlns="sap.m">
+    <Page id="idResponseHistoryPage" title="{i18n>view.ResponseHistory.Title}" showNavButton="true" showHeader="true" showFooter="false" navButtonPress="onNavButtonPress">
+        <content>
+            <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                <Panel id="idResponseHistoryPanel" visible="true" width="100%" height="40%">
+                    <layout:HorizontalLayout id="idResponseHistory" visible="true" class="sapUiContentPadding">
+                        <VBox>
+                            <Label text="{i18n>view.ResponseHistory.Label.EntryNumber}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Text text="{ResponseHistoryVWDM>/Id}" class="sapUiSmallMarginBottom"/>
+                        </VBox>
+                        <VBox>
+                            <Label text="{i18n>view.ResponseHistory.Label.Status}" design="Bold" width="auto" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Text text="{ResponseHistoryVWDM>/StatusDesc}" class="sapUiSmallMarginBottom"/>
+                        </VBox>
+                    </layout:HorizontalLayout>
+                    <Table id="idResponseHistoryTable" width="auto" noDataText="{i18n>view.ResponseHistory.Table.NoData}" mode="None" showSeparators="All" growing="true" growingThreshold="20" growingScrollToLoad="true" class="sapUiResponsiveMargin" items="{path:'ResponseHistoryVWDM>/Responses'}">
+                        <headerToolbar>
+                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true">
+                                <content>
+                                    <Title text="" titleStyle="Auto" width="auto" textAlign="Begin" visible="false" wrapping="false"/>
+                                </content>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                <header>
+                                    <Text text="{i18n>view.ResponseHistory.Table.Column.Id}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </header>
+                            </Column>
+                            <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                <header>
+                                    <Text text="{i18n>view.ResponseHistory.Table.Column.Decision}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </header>
+                            </Column>
+                            <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                <header>
+                                    <Text text="{i18n>view.ResponseHistory.Table.Column.Date}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </header>
+                            </Column>
+                            <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                <header>
+                                    <Text text="{i18n>view.ResponseHistory.Table.Column.Comments}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </header>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem type="Navigation" press="onPressRowItem">
+                                <cells>
+                                    <Text text="{ResponseHistoryVWDM>Id}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Text text="{ResponseHistoryVWDM>DecisionDesc}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Text text="{ResponseHistoryVWDM>ResponseDateFormatted}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Text text="{ResponseHistoryVWDM>ResponseData}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+                <Panel id="idResponseHistoryDetailPanel" visible="false" width="100%" height="40%">
+                    <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                        <layout:HorizontalLayout visible="true" class="sapUiContentPadding">
+                            <VBox>
+                                <Label text="{i18n>dialog.ResponseHistory.Label.AuthNumber}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Text text="{ResponseHistoryDetailVWDM>/Id}" class="sapUiSmallMarginBottom"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.ResponseHistory.Label.Decision}" design="Bold" width="auto" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Text text="{ResponseHistoryDetailVWDM>/DecisionDesc}" class="sapUiSmallMarginBottom"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.ResponseHistory.Table.Column.Date}" design="Bold" width="auto" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Text text="{ResponseHistoryDetailVWDM>/ResponseDateFormatted}" class="sapUiSmallMarginBottom"/>
+                            </VBox>
+                        </layout:HorizontalLayout>
+                    </VBox>
+                    <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                        <items>
+                            <layout:HorizontalLayout visible="true">
+                                <Label text="{i18n>view.Submission.Response.Label.AdditionalComments}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            </layout:HorizontalLayout>
+                            <layout:HorizontalLayout visible="true">
+                                <TextArea id="idResponseAdditionalComments" value="{ResponseHistoryDetailVWDM>/ResponseData}" cols="100" rows="6" enabled="false" visible="true"/>        
+                            </layout:HorizontalLayout>
+                        </items>
+                    </VBox>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

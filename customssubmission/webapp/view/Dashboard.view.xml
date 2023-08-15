@@ -1,0 +1,243 @@
+<mvc:View controllerName="com.sap.poc.customssubmission.controller.Dashboard"
+    class="sapUiSizeCompact"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:uxap="sap.uxap"
+    xmlns="sap.m">
+    <Shell id="idShell" appWidthLimited="false">
+		<App id="idApp">
+			<pages>
+                <Page id="idDashboardPage" title="{i18n>view.Dashboard.Title}">
+                    <content>
+                        <VBox>
+                            <layout:HorizontalLayout id="idSearchBar" visible="true" class="sapUiContentPadding">
+                                <VBox>
+                                    <Label text="{i18n>view.Dashboard.SubmissionSearch.Label.EntryNumber}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Input id="idEntryNumber" value="" enabled="true" visible="true" width="100%"/>
+                                </VBox>
+                                <VBox>
+                                    <Label text="{i18n>view.Dashboard.SubmissionSearch.Label.Status}" design="Bold" width="auto" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <ComboBox id="idStatus" selectedKey="" placeholder="{i18n>view.Dashboard.SubmissionSearch.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'SubmissionStatusDM>/'}">
+                                        <items>
+                                            <core:Item text="{SubmissionStatusDM>StatusDesc}" key="{SubmissionStatusDM>Status}" enabled="true"/>
+                                        </items>
+                                    </ComboBox>
+                                </VBox>                            
+                                <VBox>
+                                    <Label text="{i18n>view.Dashboard.SubmissionSearch.Label.Type}" design="Bold" width="auto" required="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <ComboBox id="idType" selectedKey="" placeholder="{i18n>view.Dashboard.SubmissionSearch.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%">
+                                        <items>
+                                            <core:Item text="" key="" enabled="true"/>
+                                            <core:Item text="DECL" key="DECL" enabled="true"/>
+                                        </items>
+                                    </ComboBox>
+                                </VBox>
+                                <VBox>
+                                    <Label text="{i18n>view.Dashboard.SubmissionSearch.Label.FromDate}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <DatePicker id="idFromDate" enabled="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                </VBox>
+                                <VBox>
+                                    <Label text="{i18n>view.Dashboard.SubmissionSearch.Label.ToDate}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <DatePicker id="idToDate" enabled="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                </VBox>
+                                <VBox>
+                                    <Label text="" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Button id="idSearchButton" text="{i18n>view.Dashboard.SubmissionSearch.Button.Search}" type="Emphasized" press="onPressSearchSubmission"/>
+                                </VBox>
+                                <VBox>
+                                    <Label text="" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Button id="idSClearButton" text="{i18n>view.Dashboard.SubmissionSearch.Button.ClearFilter}" type="Default" press="onPressClearFilter"/>
+                                </VBox>
+                                <VBox>
+                                    <Label text="     " design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Label text="     " design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                </VBox>
+                                <VBox>
+                                    <Label text="" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                    <Link text="{i18n>view.Dashboard.Link.CreateSubmission}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"  press="onLinkPressCreateSubmission" class="sapUiSmallMarginBottom"/>
+                                </VBox>
+                            </layout:HorizontalLayout>
+                        </VBox>
+                        <!--
+                        <VBox>
+                            <layout:HorizontalLayout id="idActionBar" visible="true" class="sapUiContentPadding">
+                                <Button id="idCreateSubmissionButton" text="{i18n>view.Dashboard.Button.CreateSubmission}" type="Emphasized" press="onPressNavToCreateSubmission" class="sapUiSmallMarginEnd"/>
+                                <Button id="idSearchSubmissionButton" text="{i18n>view.Dashboard.Button.SearchSubmission}" type="Default" press="onPressNavToSearchSubmission" class="sapUiSmallMarginEnd"/>
+                            </layout:HorizontalLayout>
+                        </VBox>
+                        -->
+                        <VBox>
+                            <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true" class="sapUiSmallMarginTopBottom">
+                                <layout:content>
+                                    <!-- ==================== [Tile - My Submissions] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.MySubmission.HeaderText}" mode="None" items="{path:'TileMySubmissionVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.MySubmission.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link id="idTileMySubmissionCount" text="" target="_blank" width="20%" textAlign="End" press="onPressTileMySubmissionCounter"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <core:Icon size="2rem" src="{TileMySubmissionVWDM>IconImage}" color="{TileMySubmissionVWDM>IconColor}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                                <VBox width="40%" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                                    <Link text="{TileMySubmissionVWDM>Id}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false" press="onPressTileMySubmissionSubmissionNumber"/>
+                                                    <Label text="{i18n>view.Dashboard.Tile.MySubmission.SubmissionDate}: {TileMySubmissionVWDM>FilingDateFormatted}"/>
+                                                </VBox>
+                                                <ObjectStatus text="{TileMySubmissionVWDM>StatusDesc}" state="{TileMySubmissionVWDM>StatusState}" inverted="true" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                    <!-- ==================== [Tile - Import Declaration Status] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.ImportStatus.HeaderText}" mode="None" items="{path:'TileImportStatusVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.ImportStatus.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link text="4 of 358" target="_blank" width="20%" textAlign="End" press="onPressVerbageImportStatus"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <core:Icon size="2rem" src="{TileImportStatusVWDM>IconImage}" color="{TileImportStatusVWDM>IconColor}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                                <VBox width="40%" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                                    <Link text="{TileImportStatusVWDM>SubmissionNumber}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"/>
+                                                    <Label text="{i18n>view.Dashboard.Tile.ImportStatus.Date}: {TileImportStatusVWDM>Date}"/>
+                                                </VBox>
+                                                <ObjectStatus text="{TileImportStatusVWDM>StatusDesc}" state="{TileImportStatusVWDM>StatusState}" inverted="true" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                    <!-- ==================== [Tile - Export Declaration Status] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.ExportStatus.HeaderText}" mode="None" items="{path:'TileExportStatusVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.ExportStatus.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link text="4 of 451" target="_blank" width="20%" textAlign="End" press="onPressVerbageExportStatus"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <core:Icon size="2rem" src="{TileExportStatusVWDM>IconImage}" color="{TileExportStatusVWDM>IconColor}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                                <VBox width="40%" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                                    <Link text="{TileExportStatusVWDM>SubmissionNumber}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"/>
+                                                    <Label text="{i18n>view.Dashboard.Tile.ExportStatus.Date}: {TileExportStatusVWDM>Date}"/>
+                                                </VBox>
+                                                <ObjectStatus text="{TileExportStatusVWDM>StatusDesc}" state="{TileExportStatusVWDM>StatusState}" inverted="true" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                    <!-- ==================== [Tile - Duty & Tax Exemption List] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.DutyTax.HeaderText}" mode="None" items="{path:'TileDutyTaxVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.DutyTax.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link text="4 of 27" target="_blank" width="20%" textAlign="End" press="onPressVerbageDutyTax"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <core:Icon size="2rem" src="{TileDutyTaxVWDM>IconImage}" color="{TileDutyTaxVWDM>IconColor}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                                <VBox width="100%" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                                    <Link text="{TileDutyTaxVWDM>ReportNumber}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"/>
+                                                    <Label text="{i18n>view.Dashboard.Tile.DutyTax.ReportDate}: {TileDutyTaxVWDM>ReportDate}"/>
+                                                </VBox>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                </layout:content>
+                            </layout:Grid>
+                        </VBox>
+                        <VBox>
+                            <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true" class="sapUiSmallMarginTopBottom">
+                                <layout:content>
+                                    <!-- ==================== [Tile - Import Licenses] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.ImportLicense.HeaderText}" mode="None" items="{path:'TileImportLicenseVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.ImportLicense.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link text="4 of 22" target="_blank" width="20%" textAlign="End" press="onPressVerbageImportLicense"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <core:Icon size="2rem" src="{TileImportLicenseVWDM>IconImage}" color="{TileImportLicenseVWDM>IconColor}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                                <VBox width="100%" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                                    <Link text="{TileImportLicenseVWDM>Material}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"/>
+                                                    <Label text="{i18n>view.Dashboard.Tile.ImportLicense.ExportLicense}: {TileImportLicenseVWDM>License}"/>
+                                                </VBox>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                    <!-- ==================== [Tile - Export Licenses] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.ExportLicense.HeaderText}" mode="None" items="{path:'TileExportLicenseVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.ExportLicense.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link text="4 of 15" target="_blank" width="20%" textAlign="End" press="onPressVerbageExportLicense"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <core:Icon size="2rem" src="{TileExportLicenseVWDM>IconImage}" color="{TileExportLicenseVWDM>IconColor}" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"/>
+                                                <VBox width="100%" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                                                    <Link text="{TileExportLicenseVWDM>Product}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"/>
+                                                    <Label text="{i18n>view.Dashboard.Tile.ExportLicense.ExportLicense}: {TileExportLicenseVWDM>License}"/>
+                                                </VBox>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                    <!-- ==================== [Tile - Usage of Material] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.UsageMaterial.HeaderText}" mode="None" items="{path:'TileUsageMaterialVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.UsageMaterial.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link text="{i18n>view.Dashboard.Tile.UsageMaterial.Link.ViewDetails}" target="_blank" width="20%" textAlign="End" press="onPressVerbageUsageMaterial"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <Image id="idUsageMaterialImage" src="https://cfsac.launchpad.cfapps.eu10.hana.ondemand.com/c475fe23-8035-4b11-8ba2-d6ec38460457.CustomsSubmission.comsappoccustomssubmission/images/Usage-Material.jpg" height="auto" width="auto" visible="true"/>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                    <!-- ==================== [Tile - Inventory On Hand] ==================== -->
+                                    <List headerText="{i18n>view.Dashboard.Tile.InventoryOnHand.HeaderText}" mode="None" items="{path:'TileInventoryOnHandVWDM>/'}">
+                                        <headerToolbar>
+                                            <OverflowToolbar width="auto" height="auto" design="Transparent" enabled="true" visible="true" class="sapUiSmallMarginTopBottom">
+                                                <content>
+                                                    <Title text="{i18n>view.Dashboard.Tile.InventoryOnHand.HeaderText}" titleStyle="Auto" width="70%" textAlign="Begin" visible="true" wrapping="false"/>
+                                                    <Link text="{i18n>view.Dashboard.Tile.InventoryOnHand.Link.ViewDetails}" target="_blank" width="20%" textAlign="End" press="onPressVerbageInventoryOnHand"/>
+                                                </content>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <CustomListItem>
+                                            <HBox>
+                                                <Image id="idInventoryOnHandImage" src="https://cfsac.launchpad.cfapps.eu10.hana.ondemand.com/c475fe23-8035-4b11-8ba2-d6ec38460457.CustomsSubmission.comsappoccustomssubmission/images/Inventory-OnHand.jpg" height="auto" width="auto" visible="true"/>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                </layout:content>
+                            </layout:Grid>
+                        </VBox>
+                    </content>
+                </Page>
+            </pages>
+		</App>
+	</Shell>
+</mvc:View>

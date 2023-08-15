@@ -1,0 +1,14 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <ViewSettingsDialog confirm="onConfirmSort">
+		<sortItems>
+			<ViewSettingsItem key="Id" text="Entry Number" selected="true"/>
+			<ViewSettingsItem key="SummaryDate" text="Summary Date"/>
+			<ViewSettingsItem key="EntryDate" text="Entry Date"/>
+			<ViewSettingsItem key="ImportDate" text="Import Date"/>
+			<ViewSettingsItem key="ImportCarrier" text="Import Carrier"/>
+			<ViewSettingsItem key="StatusDesc" text="Status"/>
+		</sortItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

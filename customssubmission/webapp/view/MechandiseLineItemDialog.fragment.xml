@@ -1,0 +1,138 @@
+<core:FragmentDefinition controllerName="com.sap.poc.customssubmission.controller.MechandiseLineItemDialog"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns="sap.m">
+    <Dialog id="idMechandiseLineItemDialog" title="{i18n>dialog.MechandiseLineItem.Title}" contentWidth="1280px" showHeader="true" horizontalScrolling="false" verticalScrolling="true" class="sapUiSizeCompact">
+        <content>
+            <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                <items>
+                    <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                        <layout:content>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.LineNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLILineNumber" value="{MechandiseLineItemVWDM>/LineNumber}" enabled="false" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.Description}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIDescription" value="{MechandiseLineItemVWDM>/MerchantDesc}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.ADCVDNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIADCVDNumber" value="{MechandiseLineItemVWDM>/ADDCVNumber}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                        </layout:content>
+                    </layout:Grid>
+                </items>
+            </VBox>
+            <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                <items>
+                    <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="XL6 L6 M6 S6" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                        <layout:content>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.HTSUSNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <ComboBox id="idMLIHTSUSNumber" selectedKey="{MechandiseLineItemVWDM>/HTSUSNumber}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'ProductHTSDM>/'}">
+                                    <items>
+                                        <core:Item text="{ProductHTSDM>HTS_NUMBER} - {ProductHTSDM>PRODUCT_NAME} ({ProductHTSDM>UOM})" key="{ProductHTSDM>HTS_NUMBER}" enabled="true"/>
+                                    </items>
+                                </ComboBox>
+                            </VBox>
+                        </layout:content>
+                    </layout:Grid>
+                </items>
+            </VBox>
+            <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                <items>
+                    <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                        <layout:content>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.GrossWeight}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIGrossWeight" value="{MechandiseLineItemVWDM>/GrossWeight}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.ManifestQty}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIManifestQty" value="{MechandiseLineItemVWDM>/ManifestQty}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.HTSUSQty}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIHTSUSQty" value="{MechandiseLineItemVWDM>/HTSUSQty}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                        </layout:content>
+                    </layout:Grid>
+                </items>
+            </VBox>
+            <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                <items>
+                    <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                        <layout:content>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.EnteredValue}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIEnteredValue" value="{MechandiseLineItemVWDM>/EnteredValue}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.OtherCharges}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIOtherCharges" value="{MechandiseLineItemVWDM>/OtherCharges}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.Relationship}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <ComboBox id="idMLIRelationship" selectedKey="{MechandiseLineItemVWDM>/Relationship}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'RelationshipVWDM>/'}">
+                                    <items>
+                                        <core:Item text="{RelationshipVWDM>Desc}" key="{RelationshipVWDM>Code}" enabled="true"/>
+                                    </items>
+                                </ComboBox>
+                            </VBox>
+                        </layout:content>
+                    </layout:Grid>
+                </items>
+            </VBox>
+            <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                <items>
+                    <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                        <layout:content>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.HTSUSRatePct}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIHTSUSRatePct" value="{MechandiseLineItemVWDM>/HTSUSRatePct}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.ADCVDRatePct}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIADCVDRatePct" value="{MechandiseLineItemVWDM>/ADCVDRatePct}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.IrcRatePct}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIIrcRatePct" value="{MechandiseLineItemVWDM>/IrcRatePct}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                        </layout:content>
+                    </layout:Grid>
+                </items>
+            </VBox>
+            <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                <items>
+                    <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                        <layout:content>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.VisaCertificateNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIVisaCertificateNumber" value="{MechandiseLineItemVWDM>/VisaCertificateNumber}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.AgreLicenseNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIAgreLicenseNumber" value="{MechandiseLineItemVWDM>/AgreLicenseNumber}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.Duty}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIDuty" value="{MechandiseLineItemVWDM>/Duty}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                            <VBox>
+                                <Label text="{i18n>dialog.MechandiseLineItem.Label.IRTax}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                <Input id="idMLIIRTax" value="{MechandiseLineItemVWDM>/IRTax}" enabled="true" visible="true" width="100%"/>
+                            </VBox>
+                        </layout:content>
+                    </layout:Grid>
+                </items>
+            </VBox>
+        </content>
+        <buttons>
+            <Button id="idMLIAddButton" text="{i18n>dialog.MechandiseLineItem.Button.Add}" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPressAddMechandiseLineItem"/>
+            <Button id="idMLISaveButton" text="{i18n>dialog.MechandiseLineItem.Button.Save}" type="Emphasized" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPressSaveMechandiseLineItem"/>
+            <Button id="idMLICancelButton" text="{i18n>dialog.MechandiseLineItem.Button.Cancel}" type="Default" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPressCancelMechandiseLineItem"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>    

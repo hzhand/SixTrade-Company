@@ -1,0 +1,172 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "com.sap.poc.customssubmission",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "ach": "ach",
+        "sourceTemplate": {
+            "id": "html5moduletemplates.basicSAPUI5ApplicationProjectModule",
+            "version": "1.40.12"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "com-sap-poc-customssubmission-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "Submission",
+                    "action": "view",
+                    "title": "{{flpTitle}}",
+                    "subTitle": "{{flpSubtitle}}",
+                    "icon": "sap-icon://activity-items"
+                }
+            }
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "CustomsSubmission"
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "rootView": {
+            "viewName": "com.sap.poc.customssubmission.view.Dashboard",
+            "type": "XML",
+            "async": true,
+            "id": "DashboardRootView"
+        },
+        "dependencies": {
+            "minUI5Version": "1.60.1",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.layout": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.sap.poc.customssubmission.i18n.i18n"
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "com.sap.poc.customssubmission.view",
+                "controlAggregation": "pages",
+                "controlId": "idApp",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "Dashboard",
+                    "pattern": "Dashboard",
+                    "target": [
+                        "Dashboard"
+                    ]
+                },
+                {
+                    "name": "Submission",
+                    "pattern": "Submission/:context:",
+                    "target": [
+                        "Submission"
+                    ]
+                },
+                {
+                    "name": "SubmissionSearch",
+                    "pattern": "SubmissionSearch/:context:",
+                    "target": [
+                        "SubmissionSearch"
+                    ]
+                },
+                {
+                    "name": "ResponseHistory",
+                    "pattern": "ResponseHistory/:context:",
+                    "target": [
+                        "ResponseHistory"
+                    ]
+                },
+                {
+                    "name": "default",
+                    "pattern": "",
+                    "target": [
+                        "Dashboard"
+                    ]
+                }
+            ],
+            "targets": {
+                "Dashboard": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "controlAggregation": "pages",
+                    "clearControlAggregation": false,
+                    "viewId": "Dashboard",
+                    "viewName": "Dashboard"
+                },
+                "Submission": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "controlAggregation": "pages",
+                    "clearControlAggregation": false,
+                    "viewId": "Submission",
+                    "viewName": "Submission"
+                },
+                "SubmissionSearch": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "controlAggregation": "pages",
+                    "clearControlAggregation": false,
+                    "viewId": "SubmissionSearch",
+                    "viewName": "SubmissionSearch"
+                },
+                "ResponseHistory": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "controlAggregation": "pages",
+                    "clearControlAggregation": false,
+                    "viewId": "ResponseHistory",
+                    "viewName": "ResponseHistory"
+                }
+            }
+        }
+    }
+}

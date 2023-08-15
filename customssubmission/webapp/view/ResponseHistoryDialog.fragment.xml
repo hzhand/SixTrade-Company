@@ -1,0 +1,40 @@
+<core:FragmentDefinition controllerName="com.sap.poc.customssubmission.controller.ResponseHistoryDialog"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns="sap.m">
+    <Dialog id="idResponseHistoryDialog" title="{i18n>dialog.ResponseHistory.Title}" contentWidth="800px" showHeader="true" horizontalScrolling="false" verticalScrolling="true" class="sapUiSizeCompact">
+        <content>
+            <Panel>
+                <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                    <layout:HorizontalLayout visible="true" class="sapUiContentPadding">
+                        <VBox>
+                            <Label text="{i18n>dialog.ResponseHistory.Label.AuthNumber}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Text text="{ResponseHistoryDetailVWDM>/Id}" class="sapUiSmallMarginBottom"/>
+                        </VBox>
+                        <VBox>
+                            <Label text="{i18n>dialog.ResponseHistory.Label.Decision}" design="Bold" width="auto" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Text text="{ResponseHistoryDetailVWDM>/DecisionDesc}" class="sapUiSmallMarginBottom"/>
+                        </VBox>
+                        <VBox>
+                            <Label text="{i18n>dialog.ResponseHistory.Table.Column.Date}" design="Bold" width="auto" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Text text="{ResponseHistoryDetailVWDM>/ResponseDateFormatted}" class="sapUiSmallMarginBottom"/>
+                        </VBox>
+                    </layout:HorizontalLayout>
+                </VBox>
+                <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                    <items>
+                        <layout:HorizontalLayout visible="true">
+                            <Label text="{i18n>view.Submission.Response.Label.AdditionalComments}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                        </layout:HorizontalLayout>
+                        <layout:HorizontalLayout visible="true">
+                            <TextArea id="idDialogResponseAdditionalComments" value="{ResponseHistoryDetailVWDM>/ResponseData}" cols="100" rows="6" enabled="false" visible="true"/>        
+                        </layout:HorizontalLayout>
+                    </items>
+                </VBox>
+            </Panel>
+        </content>
+        <buttons>
+            <Button id="idDialogCloseButton" text="{i18n>dialog.ResponseHistory.Button.Close}" type="Default" iconFirst="true" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPressClose"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

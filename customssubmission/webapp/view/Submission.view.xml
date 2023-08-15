@@ -1,0 +1,847 @@
+<mvc:View controllerName="com.sap.poc.customssubmission.controller.Submission"
+    class="sapUiSizeCompact"
+    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:unified="sap.ui.unified"
+    xmlns:uxap="sap.uxap"
+    xmlns="sap.m">
+    <Page id="idSubmissionPage" title="{i18n>title}" showNavButton="true" showHeader="true" showFooter="false" navButtonPress="onNavButtonPress">
+        <headerContent>
+            <Link text="{i18n>view.Submission.Link.NavToDashboard}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"  press="onLinkPressNavToDashboard" class="sapUiSmallMarginEnd"/>
+        </headerContent>
+        <content>
+            <uxap:ObjectPageLayout id="idObjectPageLayout" headerContentPinnable="true" upperCaseAnchorBar="false">
+                <uxap:headerTitle>
+                    <uxap:ObjectPageDynamicHeaderTitle>
+                        <uxap:expandedHeading>
+                            <Title text="{i18n>view.Submission.Title}" wrapping="true" class="sapUiSmallMarginBottom"/>
+                        </uxap:expandedHeading>
+                        <uxap:snappedHeading>
+                            <Title text="{i18n>view.Submission.Title}" wrapping="true" class="sapUiSmallMarginBottom"/>
+                        </uxap:snappedHeading>
+                        <uxap:expandedContent>
+                            <VBox>
+                                <FlexBox justifyContent="SpaceBetween">
+                                    <Text text="{i18n>view.Submission.FilerCode}: {SubmissionVWDM>/Id}" class="sapUiSmallMarginBottom"/>
+                                    <Image src="https://cfsac.launchpad.cfapps.eu10.hana.ondemand.com/c475fe23-8035-4b11-8ba2-d6ec38460457.CustomsSubmission.comsappoccustomssubmission/images/{TDXOnlineStatusVWDM>/StatusImageFileName}" height="auto" width="auto" visible="true" tooltip="{TDXOnlineStatusVWDM>/StatusTooltip}"/>
+                                </FlexBox>
+                                <FlexBox justifyContent="SpaceBetween">
+                                        <Text text="{i18n>view.Submission.Status}: {SubmissionVWDM>/StatusDesc}" class="sapUiSmallMarginBottom"/>
+                                </FlexBox>
+                            </VBox>
+                        </uxap:expandedContent>
+                        <uxap:snappedContent>
+                            <VBox>
+                                <FlexBox justifyContent="SpaceBetween">
+                                    <Text text="{i18n>view.Submission.FilerCode}: {SubmissionVWDM>/Id}" class="sapUiSmallMarginBottom"/>
+                                    <Image src="https://cfsac.launchpad.cfapps.eu10.hana.ondemand.com/c475fe23-8035-4b11-8ba2-d6ec38460457.CustomsSubmission.comsappoccustomssubmission/images/{TDXOnlineStatusVWDM>/StatusImageFileName}" height="auto" width="auto" visible="true" tooltip="{TDXOnlineStatusVWDM>/StatusTooltip}"/>
+                                </FlexBox>
+                                <FlexBox justifyContent="SpaceBetween">
+                                        <Text text="{i18n>view.Submission.Status}: {SubmissionVWDM>/StatusDesc}" class="sapUiSmallMarginBottom"/>
+                                </FlexBox>                            
+                            </VBox>
+                        </uxap:snappedContent>
+                        <uxap:actions>
+                            <Button id="idSubmitSubmissionButton" text="{i18n>view.Submission.Button.SubmitSubmission}" enabled="true" visible="true" type="Emphasized" press="onPressSubmitSubmission"/>
+                            <Button id="idSaveSubmissionButton" text="{i18n>view.Submission.Button.SaveSubmission}" enabled="true" visible="true" type="Default" press="onPressSaveSubmission"/>
+                            <Button id="idCloseSubmissionButton" text="{i18n>view.Submission.Button.CancelWithoutSavingSubmission}" enabled="true" visible="true" type="Default" press="onPressCloseSubmission"/>
+                        </uxap:actions>
+                    </uxap:ObjectPageDynamicHeaderTitle>
+                </uxap:headerTitle>
+                <uxap:headerContent>
+                    <HBox>
+                        <Button id="idDownloadExcelButton" text="{i18n>view.Submission.Button.DownloadExcel}" icon="sap-icon://download" type="Default" press="onPressDownloadExcel" class="sapUiLargeMarginEnd"/>
+                        <unified:FileUploader id="idFileUploader" name="FileUploader" tooltip="" icon="sap-icon://browse-folder" iconOnly="true"
+                                              fileType="xlsx"
+                                              uploadUrl="upload/"
+                                              uploadComplete="onUploadComplete"
+                                              typeMissmatch="handleTypeMissmatch" class="sapUiSmallMarginEnd"/>
+                        <Button id="idUploadFromExcelButton" text="{i18n>view.Submission.Button.UploadFromExcel}" enabled="true" visible="true" type="Default" press="onPressPullFromExcel" class="sapUiLargeMarginEnd"/>
+                        <Button id="idPullFromExportButton" text="{i18n>view.Submission.Button.PullFromExport}" enabled="true" visible="true" type="Default" press="onPressVerbagePullFromExport" class="sapUiSmallMarginEnd"/>
+                        <Button id="idPullFromExternalSystemButton" text="{i18n>view.Submission.Button.PullFromExternalSystem}" enabled="true" visible="true" type="Default" press="onPressPullFromExternalSystem" class="sapUiSmallMarginEnd"/>
+                    </HBox>
+                </uxap:headerContent>
+                <uxap:sections>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionResponse" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.Response}" visible="false">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionResponse">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <HBox>
+                                                    <Label text="{i18n>view.Submission.Response.Label.AuthNumber}:" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true" class="sapUiSmallMarginEnd"/>
+                                                    <Text text="{ResponseListVWDM>/AuthNumber}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true" class="sapUiSmallMarginBottom"/>
+                                                </HBox>
+                                                <Text text="{ResponseListVWDM>/ResponseMsg}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true" class="sapUiSmallMarginBottom"/>
+                                                <Label id="idLabelResponseListAdditionalComments" text="{i18n>view.Submission.Response.Label.AdditionalComments}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true" class="sapUiSmallMarginBottom"/>
+                                                <TextArea id="idResponseListAdditionalComments" value="{ResponseListVWDM>/ResponseData}" cols="100" rows="6" enabled="false" visible="true" class="sapUiSmallMarginBottom"/>
+                                                <Link text="{i18n>view.Submission.Response.Link.ResponseHistory}" textAlign="Begin" width="auto" target="_blank" wrapping="false" enabled="true" visible="true" emphasized="false" subtle="false"  press="onLinkPressResponseHistory" class="sapUiSmallMarginBottom"/>
+                                            </items>
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionGeneralInfo" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.GeneralInfo}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionGeneralInfo">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.EntryType}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idEntryType" selectedKey="{SubmissionVWDM>/SubmissionData/EntryType}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'EntryTypeDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{EntryTypeDM>TEXT}" key="{EntryTypeDM>KEY}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.SummaryDate}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <DatePicker id="idSummaryDate" enabled="true" visible="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.SuretyNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idSuretyNumber" selectedKey="{SubmissionVWDM>/SubmissionData/SuretyNumber}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'SuretyNumberDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{SuretyNumberDM>NAME}" key="{SuretyNumberDM>ID}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BondType}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idBondType" selectedKey="{SubmissionVWDM>/SubmissionData/BondType}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'BondTypeDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{BondTypeDM>TEXT}" key="{BondTypeDM>ID}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.PortDistrict}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idPortDistrict" selectedKey="{SubmissionVWDM>/SubmissionData/PortDistrict}" change="onChangePortDistrict" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'PortDistrictDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{PortDistrictDM>NAME}" key="{PortDistrictDM>ID}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.PortCode}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idPortCode" selectedKey="{SubmissionVWDM>/SubmissionData/PortCode}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'PortCodeDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{PortCodeDM>NAME}" key="{PortCodeDM>PORT}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.EntryDate}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <DatePicker id="idEntryDate" enabled="true" visible="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImportingCarrier}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idImportingCarrier" selectedKey="{SubmissionVWDM>/SubmissionData/ImportCarrier}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'ImportingCarrierDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{ImportingCarrierDM>NAME}" key="{ImportingCarrierDM>ID}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ModeOfTransport}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idModeOfTransport" selectedKey="{SubmissionVWDM>/SubmissionData/TransportMode}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'ModeOfTransportDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{ModeOfTransportDM>TEXT}" key="{ModeOfTransportDM>ID}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.CountryOfOrigin}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idCountryOfOrigin" selectedKey="{SubmissionVWDM>/SubmissionData/CountryOfOrigin}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'CountryOfOriginDM>/', length:'500'}">
+                                                                <items>
+                                                                    <core:Item text="{CountryOfOriginDM>COUNTRY_NAME}" key="{CountryOfOriginDM>COUNTRY_CODE}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImportDate}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <DatePicker id="idImportDate" enabled="true" visible="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BLAWBNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idBLAWBNumber" value="{SubmissionVWDM>/SubmissionData/BLAWBNumber}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ManufacturerID}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idManufacturerID" value="{SubmissionVWDM>/SubmissionData/ManufacturerId}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ExportingCountry}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idExportingCountry" selectedKey="{SubmissionVWDM>/SubmissionData/ExportingCountry}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'ExportingCountryDM>/', length:'500'}">
+                                                                <items>
+                                                                    <core:Item text="{ExportingCountryDM>COUNTRY_NAME}" key="{ExportingCountryDM>COUNTRY_CODE}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ExportDate}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <DatePicker id="idExportDate" enabled="true" visible="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ITNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idITNumber" value="{SubmissionVWDM>/SubmissionData/ITNumber}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ITDate}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <DatePicker id="idITDate" enabled="true" visible="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ForeignPortOfLading}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idForeignPortOfLading" value="{SubmissionVWDM>/SubmissionData/ForeignPortOfLaiding}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.USPortOfLading}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idUSPortOfLading" value="{SubmissionVWDM>/SubmissionData/USPortOfLaiding}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.LocOfGoodGONumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idLocOfGoodGONumber" value="{SubmissionVWDM>/SubmissionData/GoodsLocation}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionMissingDocs" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.MissingDocs}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionMissingDocs">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <CheckBox id="idMissingDocCommercialInvoice" text="{i18n>view.Submission.Checkbox.CommercialInvoice}" selected="{SubmissionVWDM>/SubmissionData/MissingDocCommercialInvoice}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="01"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                        <CheckBox id="idMissingDocCBPForm5523" text="{i18n>view.Submission.Checkbox.CBPForm5523}" selected="{SubmissionVWDM>/SubmissionData/MissingDocCBPForm5523}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                            <core:CustomData key="ID" value="10"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                        <CheckBox id="idMissingDocCorrCommInvoice" text="{i18n>view.Submission.Checkbox.CorrectedCommercialInvoice}" selected="{SubmissionVWDM>/SubmissionData/MissingDocCorrectedCommercialInvoice}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="16"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                        <CheckBox id="idMissingDocOtherAgencyForm" text="{i18n>view.Submission.Checkbox.OtherAgencyForm}" selected="{SubmissionVWDM>/SubmissionData/MissingDocOtherAgencyForm}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="17"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <CheckBox id="idMissingDocScaleWeight" text="{i18n>view.Submission.Checkbox.ScaleWeight}" selected="{SubmissionVWDM>/SubmissionData/MissingDocScaleWeight}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="19"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                        <CheckBox id="idMissingDocCoffeeFormO" text="{i18n>view.Submission.Checkbox.CoffeeFormO}" selected="{SubmissionVWDM>/SubmissionData/MissingDocCoffeeFormO}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="21"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                        <CheckBox id="idMissingDocChemicalAnalysis" text="{i18n>view.Submission.Checkbox.ChemicalAnalysis}" selected="{SubmissionVWDM>/SubmissionData/MissingDocChemicalAnalysis}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="22"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                        <CheckBox id="idMissingDocOutturnReport" text="{i18n>view.Submission.Checkbox.OutturnReport}" selected="{SubmissionVWDM>/SubmissionData/MissingDocOutturnReport}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="23"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <CheckBox id="idMissingDocPackingList" text="{i18n>view.Submission.Checkbox.PackingList}" selected="{SubmissionVWDM>/SubmissionData/MissingDocPackingList}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="26"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <CheckBox id="idMissingDocNotSpecifiedAbove" text="{i18n>view.Submission.Checkbox.NotSpecifiedAbove}" selected="{SubmissionVWDM>/SubmissionData/MissingDocNotSpecifiedAbove}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="98"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                        <CheckBox id="idMissingDocMoreThanTwo" text="{i18n>view.Submission.Checkbox.MoreThanTwo}" selected="{SubmissionVWDM>/SubmissionData/MissingDocMoreThanTwo}" enabled="true" visible="true" width="100%" textAlign="Begin" textDirection="Inherit">
+                                                            <customData>
+                                                                <core:CustomData key="ID" value="99"/>
+                                                            </customData>
+                                                        </CheckBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionConsignee" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.Consignee}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionConsignee">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConsigneeNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idConsigneeNumber" value="{SubmissionVWDM>/SubmissionData/CosingneeNumber}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.UltimateConsignee}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConigneeLastName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idConsigneeLastName" value="{SubmissionVWDM>/SubmissionData/CosigneeLName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConigneeFirstName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idConigneeFirstName" value="{SubmissionVWDM>/SubmissionData/CosigneeFName}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConigneeMiddleInitial}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idConigneeMiddleInitial" value="{SubmissionVWDM>/SubmissionData/CosigneeMIName}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConsigneeAddressStreet}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idConsigneeAddressStreet" value="{SubmissionVWDM>/SubmissionData/CosigneeAddrStreet}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConigneeAddressCity}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idConigneeAddressCity" value="{SubmissionVWDM>/SubmissionData/CosigneeAddrCity}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConigneeAddressState}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idConigneeAddressState" selectedKey="{SubmissionVWDM>/SubmissionData/CosigneeAddrStateCd}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'ConsigneeAddrStateDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{ConsigneeAddrStateDM>NAME}" key="{ConsigneeAddrStateDM>CODE}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ConigneeAddressZip}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idConigneeAddressZip" value="{SubmissionVWDM>/SubmissionData/CosigneeAddrZip}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionImporter" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.Importer}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionImporter">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idImporterNumber" value="{SubmissionVWDM>/SubmissionData/ImporterNumber}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ReferenceNumber}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idReferenceNumber" value="{SubmissionVWDM>/SubmissionData/ReferenceNumber}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterOfRecord}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterLastName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idImporterLastName" value="{SubmissionVWDM>/SubmissionData/ImporterLName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterFirstName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idImporterFirstName" value="{SubmissionVWDM>/SubmissionData/ImporterFName}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterMiddleInitial}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idImporterMiddleInitial" value="{SubmissionVWDM>/SubmissionData/ImporterMIName}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterAddressStreet}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idImporterAddressStreet" value="{SubmissionVWDM>/SubmissionData/ImporterAddrStreet}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterAddressCity}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idImporterAddressCity" value="{SubmissionVWDM>/SubmissionData/ImporterAddrCity}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterAddressState}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <ComboBox id="idImporterAddressState" selectedKey="{SubmissionVWDM>/SubmissionData/ImporterAddrStateCd}" placeholder="{i18n>view.Submission.ComboBox.PlaceHolder}" editable="true" enabled="true" visible="true" width="100%" valueState="None" maxWidth="100%" items="{path:'ImporterAddrStateDM>/'}">
+                                                                <items>
+                                                                    <core:Item text="{ImporterAddrStateDM>NAME}" key="{ImporterAddrStateDM>CODE}" enabled="true"/>
+                                                                </items>
+                                                            </ComboBox>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.ImporterAddressZip}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idImporterAddressZip" value="{SubmissionVWDM>/SubmissionData/ImporterAddrZip}" enabled="true" visible="true" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>                                
+                    </uxap:ObjectPageSection>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionMerchandise" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.Merchandise}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionMerchandise">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <Table id="idMerchandiseTable" width="auto" noDataText="{i18n>view.Submission.Table.NoData}" mode="MultiSelect" showSeparators="All" growing="true" growingThreshold="20" growingScrollToLoad="true" class="sapUiResponsiveMargin" items="{path:'SubmissionVWDM>/SubmissionData/Items'}">
+                                                    <headerToolbar>
+                                                        <OverflowToolbar id="idMerchandiseTableToolbar" width="auto" height="auto" design="Transparent" enabled="true" visible="true">
+                                                            <content>
+                                                                <Title text="" titleStyle="Auto" width="auto" textAlign="Begin" visible="false" wrapping="false"/>
+                                                                <ToolbarSpacer width=""/>
+                                                                <OverflowToolbarButton text="{i18n>view.Submission.Table.Mechandise.ToolbarButtonAdd}" icon="sap-icon://add" iconFirst="true" tooltip="{i18n>view.Submission.Table.Mechandise.ToolbarButtonAdd}" type="Transparent" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPressAddLineItem"/>
+                                                                <OverflowToolbarButton text="{i18n>view.Submission.Table.Mechandise.ToolbarButtonDelete}" icon="sap-icon://delete" iconFirst="true" tooltip="{i18n>view.Submission.Table.Mechandise.ToolbarButtonDelete}" type="Transparent" width="auto" enabled="true" visible="true" iconDensityAware="false" press="onPressDeleteLineItem"/>
+                                                            </content>
+                                                        </OverflowToolbar>
+                                                    </headerToolbar>
+                                                    <columns>
+                                                        <Column width="10%" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.LineNumber}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="30%" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.Description}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.HTSUSNumber}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.ADCVDNumber}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.GrossWeight}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.ManifestQty}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.HTSUSQty}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="20%" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.EnteredValue}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="20%" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.OtherCharges}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.Relationship}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.HTSUSRatePct}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.ADCVDRatePct}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.IrcRatePct}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.VisaCertificateNumber}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="auto" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.AgreLicenseNumber}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="10%" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.Duty}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            </header>
+                                                        </Column>
+                                                        <Column width="10%" hAlign="Left" vAlign="Top" visible="true">
+                                                            <header>
+                                                                <Text text="{i18n>view.Submission.Table.Mechandise.Column.IRTax}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            </header>
+                                                        </Column>
+                                                    </columns>
+                                                    <items>
+                                                        <ColumnListItem type="Navigation" press="onPressLineItem">
+                                                            <cells>
+                                                                <Text text="{SubmissionVWDM>LineNumber}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                                <Text text="{SubmissionVWDM>MerchantDesc}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                                <Text text="{SubmissionVWDM>HTSUSNumber}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>ADDCVNumber}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>GrossWeight}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>ManifestQty}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>HTSUSQty}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>EnteredValue}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                                <Text text="{SubmissionVWDM>OtherCharges}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                                <Text text="{SubmissionVWDM>Relationship}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>HTSUSRatePct}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>ADCVDRatePct}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>IrcRatePct}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>VisaCertificateNumber}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>AgreLicenseNumber}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="false"/>
+                                                                <Text text="{SubmissionVWDM>Duty}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                                <Text text="{SubmissionVWDM>IRTax}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            </cells>
+                                                        </ColumnListItem>
+                                                    </items>
+                                                </Table>
+                                            </items>
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>
+                    </uxap:ObjectPageSection>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionTaxFees" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.TaxAndFees}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionTaxFees">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.OtherFeeSummary}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <TextArea id="idOtherFeeSummary" value="{SubmissionVWDM>/SubmissionData/OtherFeesSummary}" cols="40" rows="4" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.TotalEnteredValue}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idTotalEnteredValue" value="{SubmissionVWDM>/SubmissionData/TotalEnteredValue}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.TotalOtherFees}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idTotalOtherFees" value="{SubmissionVWDM>/SubmissionData/TotalOtherFees}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.Totals}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.TotalDuty}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idTotalDuty" value="{SubmissionVWDM>/SubmissionData/TotalDuty}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.TotalTax}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idTotalTax" value="{SubmissionVWDM>/SubmissionData/TotalTax}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.TotalOtherFee}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idTotalOtherFee" value="{SubmissionVWDM>/SubmissionData/TotalOtherFee}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.Total}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idTotal" value="{SubmissionVWDM>/SubmissionData/Total}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>                                
+                    </uxap:ObjectPageSection>
+                    <!-- ==================== [Section] ==================== -->
+                    <uxap:ObjectPageSection id="idSectionDeclaration" titleUppercase="false" title="{i18n>view.Submission.SectionTitle.Declaration}">
+                        <uxap:subSections>
+                            <uxap:ObjectPageSubSection id="idSubSectionDeclaration">
+                                <uxap:blocks>
+                                    <Panel>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.Declarant}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.DeclarentLName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idDeclarentLName" value="{SubmissionVWDM>/SubmissionData/DeclarentLName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.DeclarentFName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idDeclarentFName" value="{SubmissionVWDM>/SubmissionData/DeclarentFName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.DeclarentMIName}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idDeclarentMIName" value="{SubmissionVWDM>/SubmissionData/DeclarentMIName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.DeclarentTitle}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idDeclarentTitle" value="{SubmissionVWDM>/SubmissionData/DeclarentTitle}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>                                                    
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.DeclaredDate}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <DatePicker id="idDeclaredDate" enabled="true" visible="true" displayFormat="{i18n>default.DateFormat}" width="100%"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>                                                    
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BrokerInfo}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BrokerFilerLName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idBrokerFilerLName" value="{SubmissionVWDM>/SubmissionData/BrokerFilerLName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BrokerFilerFName}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idBrokerFilerFName" value="{SubmissionVWDM>/SubmissionData/BrokerFilerFName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BrokerFilerMIName}" required="false" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idBrokerFilerMIName" value="{SubmissionVWDM>/SubmissionData/BrokerFilerMIName}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BrokerFilerPhone}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idBrokerFilerPhone" value="{SubmissionVWDM>/SubmissionData/BrokerFilerPhone}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>                                                    
+                                        </VBox>
+                                        <VBox alignItems="Stretch" direction="Column" fitContainer="false" width="100%" height="auto" justifyContent="Start" renderType="Div" visible="true" displayInline="false" class="sapUiSmallMarginTop">
+                                            <items>
+                                                <layout:Grid defaultIndent="L0 M0 S0" defaultSpan="L3 M6 S12" position="Left" width="100%" containerQuery="false" hSpacing="1" vSpacing="0" visible="true">
+                                                    <layout:content>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BrokerFilerNumner1}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idBrokerFilerNumner1" value="{SubmissionVWDM>/SubmissionData/BrokerFilerNumner1}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                        <VBox>
+                                                            <Label text="{i18n>view.Submission.Label.BrokerFilerNumner2}" required="true" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                                                            <Input id="idBrokerFilerNumner2" value="{SubmissionVWDM>/SubmissionData/BrokerFilerNumner2}" enabled="true" visible="true"/>
+                                                        </VBox>
+                                                    </layout:content>
+                                                </layout:Grid>
+                                            </items>                                                    
+                                        </VBox>
+                                    </Panel>
+                                </uxap:blocks>
+                            </uxap:ObjectPageSubSection>
+                        </uxap:subSections>                                
+                    </uxap:ObjectPageSection>
+                </uxap:sections>
+            </uxap:ObjectPageLayout>
+        </content>
+    </Page>
+</mvc:View>
