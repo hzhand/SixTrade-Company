@@ -232,6 +232,11 @@ sap.ui.define([
                     submissionSearchVWDO.push(submissionDO);
                 }
                 let submissionSearchVWDM = new sap.ui.model.json.JSONModel(submissionSearchVWDO);
+
+                for( let i=0; i<submissionSearchVWDM.oData.length; i++) {
+                    let statImageName = MasterData.getStatusImageName(submissionSearchVWDM.oData[i].Status);
+                    submissionSearchVWDM.oData[i].StatusImageName = statImageName;
+                }
                 this.getView().setModel(submissionSearchVWDM, "SubmissionSearchVWDM");
             },
 

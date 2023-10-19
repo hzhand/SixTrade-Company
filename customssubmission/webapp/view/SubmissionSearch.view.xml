@@ -96,6 +96,11 @@
                             <Text text="{i18n>view.SubmissionSearch.Table.Column.Status}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
                         </header>
                     </Column>
+                    <Column width="10%" hAlign="Left" vAlign="Top" visible="true">
+                        <header>
+                            <Text text="{i18n>view.SubmissionSearch.Table.Column.StatusDesc}" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                        </header>
+                    </Column>
                 </columns>
                 <items>
                     <ColumnListItem type="Navigation" press="onPressRowItem">
@@ -106,6 +111,7 @@
                             <Text text="{SubmissionSearchVWDM>ImportDate}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
                             <Text text="{SubmissionSearchVWDM>ImportCarrier}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
                             <Text text="{SubmissionSearchVWDM>MissingDocNames}" width="auto" maxLines="2" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
+                            <Image src="https://cfsac.launchpad.cfapps.eu10.hana.ondemand.com/c475fe23-8035-4b11-8ba2-d6ec38460457.CustomsSubmission.comsappoccustomssubmission/images/{SubmissionSearchVWDM>StatusImageName}" height="auto" width="auto" visible="true" tooltip="{SubmissionSearchVWDM>StatusDesc}"/>
                             <Text text="{SubmissionSearchVWDM>StatusDesc}" width="auto" maxLines="1" wrapping="true" textAlign="Begin" textDirection="Inherit" visible="true"/>
                         </cells>
                     </ColumnListItem>

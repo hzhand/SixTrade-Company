@@ -633,6 +633,7 @@ function (Controller, File, MessageBox, MessageToast, APIHelper, CommonUtil, Dat
             let submissionPayloadDO = this.viewToPayloadSubmission();
             let responseDO;
             let msg;
+            sap.ui.core.BusyIndicator.show();
             if (submissionPayloadDO.Status === "WIP")
             {
                 responseDO = APIHelper.submitSubmission(submissionPayloadDO);
@@ -643,6 +644,7 @@ function (Controller, File, MessageBox, MessageToast, APIHelper, CommonUtil, Dat
                 responseDO = APIHelper.updateSubmission(submissionPayloadDO);
                 msg = this._resourceBundle.getText("msg.View.Submission.SubmissionUpdateSuccessful");
             }
+            sap.ui.core.BusyIndicator.hide();
             if (responseDO.StatusCode == 200)
             {
                 let self = this;
@@ -1247,6 +1249,7 @@ function (Controller, File, MessageBox, MessageToast, APIHelper, CommonUtil, Dat
             let self = this;
             let responseStatus = event.getParameter("status");
             let responseRaw = event.getParameter("responseRaw");
+            sap.ui.core.BusyIndicator.hide();
             if (responseStatus === 200)
             {
                 let msg = this._resourceBundle.getText("msg.View.Submission.ExcelUpload.Successful");
@@ -1362,8 +1365,9 @@ function (Controller, File, MessageBox, MessageToast, APIHelper, CommonUtil, Dat
                         let uploadUrl = baseUrl + "/excelupload";
                         fileUploader.setSendXHR(true);
                         fileUploader.setUploadUrl(uploadUrl);
+                        sap.ui.core.BusyIndicator.show();
                         fileUploader.upload();
-                    }
+                    }   
                     fileUploader.clear();
                 }
             });

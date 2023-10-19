@@ -206,6 +206,29 @@ sap.ui.define([], function() {
                 }
             ];
             return relationshipListDO;
+        },
+
+        getStatusImageName: function(statusCode) {
+            let imageName;
+      
+            switch (statusCode) {
+              case "RECEIVED":
+                imageName = "status-received.png";
+                break;
+              case "WIP":
+                imageName = "status-wip.png";
+                break;
+              case "RELEASED":
+                imageName = "status-released.png";
+                break;
+              case "REJECTED":
+                imageName = "status-rejected.png";
+                break;
+              default:
+                imageName = "status-warning.png";
+            }
+
+            return imageName;
         }
 	};
 });
